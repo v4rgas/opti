@@ -6,7 +6,7 @@ HYDRO = 2
 # Conversión de unidades de potenciales a kW / m2 para todos los tipos de energía
 
 SOLAR_POTENTIAL_CONVERSION = 1 # kW/m2 (ya estaba en esa unidad)
-EOLIC_POTENTIAL_CONVERSION = 3000 / (13.8 * (50**2 * 3.1415)) # m/s --> kW/m2 (531 kW / (7.5 m/s * 50^2 * pi m2)) (https://www.enelgreenpower.com/es/learning-hub/energias-renovables/energia-eolica/aerogenerador, https://www.hydroquebec.com/#:~:text=Wind%20turbines%20require%3A,be%20stopped%20to%20avoid%20damage)
+EOLIC_POTENTIAL_CONVERSION = 3000 / (13.8 * (50**2 * 3.1415)) # m/s --> kW/m2 (3000 kW / (13.8 m/s * 50^2 * pi m2)) (https://www.enelgreenpower.com/es/learning-hub/energias-renovables/energia-eolica/aerogenerador, https://www.hydroquebec.com/#:~:text=Wind%20turbines%20require%3A,be%20stopped%20to%20avoid%20damage)
 HYDRO_POTENTIAL_CONVERSION = 1000 / (20 * 415) # m3/s --> kW/m2 (1000 kW / (20 m3/s * 415 m2)) (Kaplan turbine https://renewablesfirst.co.uk/renewable-energy-technologies/hydropower/hydropower-turbines/)
 
 # Horas de generación por energía por mes
@@ -89,11 +89,13 @@ MINIMUM_REQUIRED_SPACE_SOLAR_INSTALLATION = 185000 * SOLAR_CONST # Tamaño de la
 MINIMUM_REQUIRED_SPACE_EOLIC_INSTALLATION = 201800 * EOLIC_CONST # Tamaño de la instalacion en m2 (201800 m2 de una planta de 70 MW)
 MINIMUM_REQUIRED_SPACE_HYDRO_INSTALLATION  = 109669 * HYDRO_CONST # Tamaño de la instalacion en m2 (109669 m2 de una planta de 264 MW)
 
-# Tamaños de bloques de energia en m2
+# Cantidad minima de bloques para instalar una planta si no existe la energía en la provincia
 
 MINIMUM_INITIAL_BLOCKS_REQUIRED_SOLAR = 4
 MINIMUM_INITIAL_BLOCKS_REQUIRED_EOLIC = 4
 MINIMUM_INITIAL_BLOCKS_REQUIRED_HYDRO = 4
+
+# Tamaños de bloques de energia en m2
 
 SOLAR_BLOCK_SIZE = MINIMUM_REQUIRED_SPACE_SOLAR_INSTALLATION / MINIMUM_INITIAL_BLOCKS_REQUIRED_SOLAR # m2
 EOLIC_BLOCK_SIZE = MINIMUM_REQUIRED_SPACE_EOLIC_INSTALLATION / MINIMUM_INITIAL_BLOCKS_REQUIRED_EOLIC # m2

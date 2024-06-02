@@ -79,8 +79,9 @@ objetivo2 = quicksum(quicksum(quicksum(pl.CM(e , t) * s[p, e, t] + pl.CI(p, e, t
 objetivo3 = quicksum(quicksum(quicksum(et[p, q, t] * pl.CT(t) * pl.DT(p, q) for t in range(T)) for q in range(P) if p != q) for p in range(P)) 
 objetivo4 = quicksum(quicksum(quicksum(pl.CO(e, t) * op[p, e, t] for t in range(T)) for e in range(E) if e != 3) for p in range(P))
 
+objetivo = objetivo1 - objetivo2 - objetivo3 - objetivo4
 
-model.setObjective(objetivo1 - objetivo2 - objetivo3 - objetivo4, GRB.MAXIMIZE)
+model.setObjective(objetivo, GRB.MAXIMIZE)
 model.optimize()
 
 #Guarda los valores de las variables de decision

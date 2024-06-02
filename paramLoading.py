@@ -131,11 +131,19 @@ def CO(e, t):
     # https://www.cne.cl/wp-content/uploads/2021/06/03-ITP-Estudio-de-la-Unidad-de-Punta_VF.pdf
     # De acuerdo a esta fuente, NO existe variacion de costos de operacion por localizacion para proyectos de igual tamaño.
 
-    # operational_costs = [c.OPERATING_COST_SOLAR, c.OPERATING_COST_EOLIC, c.OPERATING_COST_HYDRO]
-    # return operational_costs[e] * c.MONTHLY_INFLATION**t
-    return CM(e, t)
+    cost_deviation_per_month = {
+        # Supone aumentos significativos en meses de mantenimiento intensivo y menor generación solar.
+        c.SOLAR: [1.00, 1.00, 1.20, 1.20, 1.50, 1.00, 1.00, 1.00, 1.20, 1.20, 1.00, 1.50],
+        # Supone costos muy altos en meses con menor viento y mantenimientos críticos.
+        c.EOLIC: [1.20, 1.20, 1.10, 1.10, 1.00, 1.20, 1.20, 1.00, 1.20, 1.20, 1.50, 1.50],
+        # Supone aumentos en costos durante meses de alta variabilidad hídrica y gestión intensiva.
+        c.HYDRO: [1.50, 1.50, 1.50, 1.20, 1.20, 1.00, 1.00, 1.00, 1.50, 1.50, 1.20, 1.20]
+    }
 
+    month = t % 12
 
+    operational_costs = [c.OPERATING_COST_SOLAR, c.OPERATING_COST_EOLIC, c.OPERATING_COST_HYDRO]
+    return operational_costs[e] * c.MONTHLY_INFLATION**t * cost_deviation_per_month[e][month]
 ##Costo de mantencion por bloque de la energia e en la provincia p en el mes t.
 def CM(e, t):
     # fuente: "DETERMINACION DE LOS COSTOS DE INVERSION Y COSTOS FIJOS DE OPERACION DE LA UNIDAD DE PUNTA DEL SEN Y DE LOS SSMM", CNE, MARZO 2021.
@@ -205,8 +213,13 @@ if __name__ == "__main__":
     print("CT(0):", CT(0))
     print("DT(0, 0):", DT(0, 0))
     print("CO(0, 0):", CO(0, 0))
+    print("CO(1, 0):", CO(1, 0))
+    print("CO(2, 0):", CO(2, 0))
     print("CM(0, 0):", CM(0, 0))
     print("CI(0, 0, 0):", CI(0, 0, 0))
+    print("CI(0, 1, 0):", CI(0, 1, 0))
+    print("CI(0, 2, 0):", CI(0, 2, 0))
+    
     print("MC(0):", MC(0))
     print("GR(0):", GR(0))
     print("TM(0):", TM(0))

@@ -1,5 +1,6 @@
 import pandas as pd
 from os.path import join
+import numpy as np
 
 
 def find_region_for_province(province):
@@ -37,7 +38,9 @@ mergedDataFrames.sort_values(by="NOMBRE PROVINCIA", inplace=True)
 mergedDataFrames.reset_index(drop=True, inplace=True)
 
 
+mergedDataFrames.replace(0, np.nan, inplace=True)
+mergedDataFrames.interpolate(method='linear', inplace=True, limit_direction='both')
+mergedDataFrames.to_csv(join("data", "datos_provincias.2.csv"), index=False)
 
-mergedDataFrames.to_csv(join("data", "datos_provincias_test.csv"), index=False)
 
 print(mergedDataFrames["NOMBRE PROVINCIA"])
