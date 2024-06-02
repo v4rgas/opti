@@ -6,12 +6,12 @@ HYDRO = 2
 # Conversión de unidades de potenciales a kW / m2 para todos los tipos de energía
 
 SOLAR_POTENTIAL_CONVERSION = 1 # kW/m2 (ya estaba en esa unidad)
-EOLIC_POTENTIAL_CONVERSION = 531 / (7.5 * (50**2 * 3.1415)) # m/s --> kW/m2 (531 kW / (7.5 m/s * 50^2 * pi m2)) (https://eolico.minenergia.cl/potencia)
-HYDRO_POTENTIAL_CONVERSION = 1000 / (30 * 415) # m3/s --> kW/m2 (1000 kW / (30 m3/s * 415 m2)) (Kaplan turbine https://renewablesfirst.co.uk/renewable-energy-technologies/hydropower/hydropower-turbines/)
+EOLIC_POTENTIAL_CONVERSION = 3000 / (13.8 * (50**2 * 3.1415)) # m/s --> kW/m2 (531 kW / (7.5 m/s * 50^2 * pi m2)) (https://www.enelgreenpower.com/es/learning-hub/energias-renovables/energia-eolica/aerogenerador, https://www.hydroquebec.com/#:~:text=Wind%20turbines%20require%3A,be%20stopped%20to%20avoid%20damage)
+HYDRO_POTENTIAL_CONVERSION = 1000 / (20 * 415) # m3/s --> kW/m2 (1000 kW / (20 m3/s * 415 m2)) (Kaplan turbine https://renewablesfirst.co.uk/renewable-energy-technologies/hydropower/hydropower-turbines/)
 
 # Horas de generación por energía por mes
 
-HOURS_GENERATING_SOLAR = 12 * 30 # 12 horas de sol al día
+HOURS_GENERATING_SOLAR = 8 * 30 # 12 horas de sol al día
 HOURS_GENERATING_EOLIC = 24 * 30 # 24 horas de viento al día
 HOURS_GENERATING_HYDRO = 24 * 30 # 24 horas de agua al día
 
@@ -41,7 +41,7 @@ TOTAL_POPULATION = 17574003
 # Demanda proyectada en GWh para los próximos 20 años
 # http://energiaabierta.cl/categorias-estadistica/electricidad/?sf_paged=3
 
-ASSIGNED_DEMAND_PONDERATOR = 0.1 # cubre el 30%? de la demanda proyectada cada año
+ASSIGNED_DEMAND_PONDERATOR = 0.1 # fracción de la demanda total que hay que cumplir
 
 #GWh
 DEMAND = [

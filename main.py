@@ -6,7 +6,7 @@ import os
 
 #Crea un modelo vacio
 model = Model()
-model.setParam("TimeLimit", 30) # Limite de tiempo de ejecucion para gurobi
+model.setParam("TimeLimit", 60) # Limite de tiempo de ejecucion para gurobi
 
 #Rangos
 
@@ -66,7 +66,7 @@ model.addConstrs((s[p, e, t] <= y[p, e, t] * BigM for p in range(P) for e in ran
 model.addConstrs((y[p, e, t] <= s[p, e, t] for p in range(P) for e in range(E) for t in range(T)), name = "R9b")
 
 ##R10
-model.addConstrs((quicksum(r[p, e, t] for e in range(E)) <= 1000 for p in range(P) for t in range(T)), name = "R10")
+model.addConstrs((quicksum(r[p, e, t] for e in range(E) for p in range(P)) <= (6_500 * P) for t in range(T)), name = "R10")
 
 ##Naturaleza de las Variables
 model.addConstrs((et[p, q, t] >= 0 for p in range(P) for q in range(P) for t in range(T)), name="R10")
