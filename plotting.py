@@ -57,7 +57,7 @@ def operation_plot(operation_array, plot_name, save=False):
     if save:
         plt.savefig(os.path.join('outputs', f'{plot_name}.png'))
 
-operation_plot(sum_op_values, "Operación total")
+operation_plot(sum_op_values, "Op. total", True)
 
 operation_plot(op_values[0], nombres_provincias[0], True) # Provincia 0 --> Antofagasta
 operation_plot(op_values[5], nombres_provincias[5], True) # Provincia 5 --> BioBío
