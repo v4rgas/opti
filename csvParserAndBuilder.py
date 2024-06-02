@@ -12,7 +12,7 @@ def find_region_for_province(province):
 
 # Read the data
 poblacion = pd.read_csv(join('data', 'poblacion.csv'))
-potencial = pd.read_csv(join('data', 'potencial_provincias.csv'))
+potencial = pd.read_csv(join('data', 'potencial_prov.csv'))
 
 
 poblacion = poblacion[poblacion["EDAD"] == "Total Provincia"]

@@ -3,11 +3,17 @@ SOLAR = 0
 EOLIC = 1
 HYDRO = 2
 
-# Conversión de unidades de potenciales a kWh / m2 para todos los tipos de energía
+# Conversión de unidades de potenciales a kW / m2 para todos los tipos de energía
 
-SOLAR_POTENTIAL_CONVERSION = 1 # kWh/m2 (ya estaba en esa unidad)
-EOLIC_POTENTIAL_CONVERSION = 531 / (7.5 * (50**2 * 3.1415)) # m/s --> kWh/m2 (531 kW / (7.5 m/s * 50^2 * pi m2)) (https://eolico.minenergia.cl/potencia)
-HYDRO_POTENTIAL_CONVERSION = 1000 / (30 * 415) # m3/s --> kWh/m2 (1000 kW / (30 m3/s * 415 m2)) (Kaplan turbine https://renewablesfirst.co.uk/renewable-energy-technologies/hydropower/hydropower-turbines/)
+SOLAR_POTENTIAL_CONVERSION = 1 # kW/m2 (ya estaba en esa unidad)
+EOLIC_POTENTIAL_CONVERSION = 531 / (7.5 * (50**2 * 3.1415)) # m/s --> kW/m2 (531 kW / (7.5 m/s * 50^2 * pi m2)) (https://eolico.minenergia.cl/potencia)
+HYDRO_POTENTIAL_CONVERSION = 1000 / (30 * 415) # m3/s --> kW/m2 (1000 kW / (30 m3/s * 415 m2)) (Kaplan turbine https://renewablesfirst.co.uk/renewable-energy-technologies/hydropower/hydropower-turbines/)
+
+# Horas de generación por energía por mes
+
+HOURS_GENERATING_SOLAR = 12 * 30 # 12 horas de sol al día
+HOURS_GENERATING_EOLIC = 24 * 30 # 24 horas de viento al día
+HOURS_GENERATING_HYDRO = 24 * 30 # 24 horas de agua al día
 
 # Fracción del área total de la provincia que se puede usar para instalar energía. MAXIMO VALOR POSIBLE (Arbitrario)
 
@@ -35,7 +41,7 @@ TOTAL_POPULATION = 17574003
 # Demanda proyectada en GWh para los próximos 20 años
 # http://energiaabierta.cl/categorias-estadistica/electricidad/?sf_paged=3
 
-ASSIGNED_DEMAND_PONDERATOR = 0.3 # cubre el 30%? de la demanda proyectada cada año
+ASSIGNED_DEMAND_PONDERATOR = 0.1 # cubre el 30%? de la demanda proyectada cada año
 
 #GWh
 DEMAND = [
@@ -102,21 +108,6 @@ MANTAINANCE_COST_SOLAR = (USD_TO_CLP*33640/12) * SOLAR_CONST
 MANTAINANCE_COST_EOLIC = (USD_TO_CLP*33640/12) * EOLIC_CONST    # Son lo mismo segun la fuente
 MANTAINANCE_COST_HYDRO = (USD_TO_CLP * 0.02) * 20 # https://www.ffla.net/wp-content/uploads/2021/04/parte_ii_58_-_115-min.pdf
 
-# Aprueba Informe de Costos de Tecnologias de Generacion, de mayo de 2023.
-COST_OF_INVERSION_SOLAR_PER_KW  = (USD_TO_CLP*961) # CLP/kW
-COST_OF_INVERSION_EOLIC_PER_KW  = (USD_TO_CLP*1358) # CLP/kW
-COST_OF_INVERSION_HYDRO_PER_KW = USD_TO_CLP*2146 # CLP/kW
-
-INVERSION_COST_M2_POTENTIAL_SOLAR = COST_OF_INVERSION_SOLAR_PER_KW * SOLAR_POTENTIAL_CONVERSION # CLP/m2/potencial
-INVERSION_COST_M2_POTENTIAL_EOLIC = COST_OF_INVERSION_EOLIC_PER_KW * EOLIC_POTENTIAL_CONVERSION # CLP/m2/potencial
-INVERSION_COST_M2_POTENTIAL_HYDRO = COST_OF_INVERSION_HYDRO_PER_KW * HYDRO_POTENTIAL_CONVERSION # CLP/m2/potencial
-
-# Costo de inversion por bloque.
-# TODO: HAY QUE VER ESTO BIEN. CONFIRMAR VALORES/UNIDADES
-INSTALL_COST_BLOCK_POTENTIAL_SOLAR = INVERSION_COST_M2_POTENTIAL_SOLAR / SOLAR_BLOCK_SIZE # CLP/bloque/potencial
-INSTALL_COST_BLOCK_POTENTIAL_EOLIC = INVERSION_COST_M2_POTENTIAL_EOLIC / EOLIC_BLOCK_SIZE # CLP/bloque/potencial
-INSTALL_COST_BLOCK_POTENTIAL_HYDRO = INVERSION_COST_M2_POTENTIAL_HYDRO / HYDRO_BLOCK_SIZE # CLP/bloque/potencial
-
 #Costo de transmitir un kWh por km 
 #Capacidad de transimsion: 1000MW
 #Carga promedio 50%
@@ -128,3 +119,5 @@ INSTALL_COST_BLOCK_POTENTIAL_HYDRO = INVERSION_COST_M2_POTENTIAL_HYDRO / HYDRO_B
 
 
 TRANSMISION_COST = 0.0046 # CLP/kWh/km
+
+MAX_BLOCK_PER_MONTH = 10

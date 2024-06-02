@@ -1,5 +1,7 @@
 from gurobipy import GRB, Model, quicksum
 import paramLoading as pl
+import numpy as np
+import os
 
 
 #Crea un modelo vacio
@@ -8,11 +10,11 @@ model.setParam("TimeLimit", 30) # Limite de tiempo de ejecucion para gurobi
 
 #Rangos
 
-P = len(pl.data)
+P = len(pl.provincias)
 E = 3
 T = 25 * 12
 
-BigM = 10**10
+BigM = 10**7
 
 # Instancia variables de decisiones
 
@@ -63,6 +65,9 @@ model.addConstrs((s[p, e, t] >= pl.TM(e) * y[p, e, t] for p in range(P) for e in
 model.addConstrs((s[p, e, t] <= y[p, e, t] * BigM for p in range(P) for e in range(E) for t in range(T)), name = "R9a")
 model.addConstrs((y[p, e, t] <= s[p, e, t] for p in range(P) for e in range(E) for t in range(T)), name = "R9b")
 
+##R10
+model.addConstrs((quicksum(r[p, e, t] for e in range(E)) <= 1000 for p in range(P) for t in range(T)), name = "R10")
+
 ##Naturaleza de las Variables
 model.addConstrs((et[p, q, t] >= 0 for p in range(P) for q in range(P) for t in range(T)), name="R10")
 
@@ -77,6 +82,17 @@ objetivo4 = quicksum(quicksum(quicksum(pl.CO(e, t) * op[p, e, t] for t in range(
 
 model.setObjective(objetivo1 - objetivo2 - objetivo3 - objetivo4, GRB.MAXIMIZE)
 model.optimize()
+
+#Guarda los valores de las variables de decision
+s_values_array = np.zeros((P, E, T))
+op_values_array = np.zeros((P, E, T))
+for p in range(P):
+    for e in range(E):
+        for t in range(T):
+            s_values_array[p, e, t] = s[p, e, t].X
+            op_values_array[p, e, t] = op[p, e, t].X
+
+np.save(os.path.join("outputs", "op_values"), op_values_array)
 
 #model.computeIIS()
 #archivo = "encontrar_infactibilidad"

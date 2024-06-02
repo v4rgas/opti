@@ -5,10 +5,11 @@ import os
 
 # Cargar datos en un DataFrame
 
-data = pd.read_csv(os.path.join("data", "datos_provincias.csv"))
+provincias = pd.read_csv(os.path.join("data", "datos_provincias.csv"))
+inversiones_region = pd.read_csv(os.path.join("data", "inversiones_por_region.csv"))
 
 def p_to_name(p):
-    return data.iloc[p]["NOMBRE PROVINCIA"]
+    return provincias.iloc[p]["NOMBRE PROVINCIA"]
 
 def e_to_name(e):
     return ["SOLAR kWhr/m2", "EÓLICO m/s", "HIDROELÉCTRICO m3/s"][e] 
@@ -47,7 +48,13 @@ def A(p, e):
         c.HYDRO: c.MAX_AREA_PERCENTAGE*0.2
     }
     
-    return percentages_per_energy[e] * data.iloc[p]["SUPERFICIE km2"] * 10**6
+    return percentages_per_energy[e] * provincias.iloc[p]["SUPERFICIE km2"] * 10**6
+
+# kWh/m2
+def base_energy_potential(p, e):
+    potential_conversion = [c.SOLAR_POTENTIAL_CONVERSION, c.EOLIC_POTENTIAL_CONVERSION, c.HYDRO_POTENTIAL_CONVERSION]
+
+    return provincias.iloc[p]["POTENCIAL " + e_to_name(e)] * potential_conversion[e]
 
 ##Potencial de generacion en kWh/m2 de la energia e en la provincia p durante el mes t.
 def B(p, e, t):
@@ -98,7 +105,9 @@ def B(p, e, t):
 
     month = t % 12
 
-    return data.iloc[p]["POTENCIAL " + e_to_name(e)] * potential_deviation_per_month[e][month]/100
+    hours_generating_per_month = [c.HOURS_GENERATING_SOLAR, c.HOURS_GENERATING_EOLIC, c.HOURS_GENERATING_HYDRO]
+
+    return base_energy_potential(p, e) * (potential_deviation_per_month[e][month]+100)/100 * hours_generating_per_month[e]
 
 ##Precio de venta de 1 kWh de energia en la provincia p en el tiempo t.
 def PE(t):
@@ -106,7 +115,7 @@ def PE(t):
 
 ##Demanda de energia en kWh de la provincia p en el mes t.
 def D(p, t):
-    return (data.iloc[p]["TOTAL POBLACIÓN EFECTIVAMENTE CENSADA"] / c.TOTAL_POPULATION) * (c.DEMAND[t//12]) * 10**6
+    return (provincias.iloc[p]["TOTAL POBLACIÓN EFECTIVAMENTE CENSADA"] / c.TOTAL_POPULATION) * (c.DEMAND[t//12]) * 10**6
 
 ##Costo de transmitir 1 kWh por 1 km.
 def CT(t):
@@ -114,7 +123,7 @@ def CT(t):
 
 ##Distancia en km entre la provincia p y la provincia q.
 def DT(p, q):
-    return haversine(data.iloc[p]["CENTROIDE_LAT"], data.iloc[p]["CENTROIDE_LON"], data.iloc[q]["CENTROIDE_LAT"], data.iloc[q]["CENTROIDE_LON"])
+    return haversine(provincias.iloc[p]["CENTROIDE_LAT"], provincias.iloc[p]["CENTROIDE_LON"], provincias.iloc[q]["CENTROIDE_LAT"], provincias.iloc[q]["CENTROIDE_LON"])
 
 ##Costo de operacion por bloque de la energia e en la provincia p durante el mes t.
 def CO(e, t):
@@ -122,8 +131,9 @@ def CO(e, t):
     # https://www.cne.cl/wp-content/uploads/2021/06/03-ITP-Estudio-de-la-Unidad-de-Punta_VF.pdf
     # De acuerdo a esta fuente, NO existe variacion de costos de operacion por localizacion para proyectos de igual tamaño.
 
-    operational_costs = [c.OPERATING_COST_SOLAR, c.OPERATING_COST_EOLIC, c.OPERATING_COST_HYDRO]
-    return operational_costs[e] * c.MONTHLY_INFLATION**t
+    # operational_costs = [c.OPERATING_COST_SOLAR, c.OPERATING_COST_EOLIC, c.OPERATING_COST_HYDRO]
+    # return operational_costs[e] * c.MONTHLY_INFLATION**t
+    return CM(e, t)
 
 
 ##Costo de mantencion por bloque de la energia e en la provincia p en el mes t.
@@ -145,11 +155,17 @@ def CM(e, t):
     mantainance_costs = [c.MANTAINANCE_COST_SOLAR, c.MANTAINANCE_COST_EOLIC, c.MANTAINANCE_COST_HYDRO]
     return mantainance_costs[e] * c.MONTHLY_INFLATION ** t
 
+
 ##Costo de instalacion por bloque en la provincia p de la energia e.
 def CI(p, e, t):
-    potential = data.iloc[p]["POTENCIAL " + e_to_name(e)]
-    install_costs = [c.INSTALL_COST_BLOCK_POTENTIAL_SOLAR, c.INSTALL_COST_BLOCK_POTENTIAL_EOLIC, c.INSTALL_COST_BLOCK_POTENTIAL_HYDRO]
-    return install_costs[e] * potential * c.MONTHLY_INFLATION ** t
+    region = provincias.iloc[p]["REGION"]
+    energy_type = ["Solar", "Eólica", "Hidro"][e]
+    try:
+        cost_per_w = inversiones_region[(inversiones_region["REGION"] == region) & (inversiones_region["TIPO"] == energy_type)]["USD/W"].values[0]
+    except IndexError:
+        print(f"Error: No se encontró el costo de instalación para la región {region} y la energía {energy_type}.")
+        exit()
+    return base_energy_potential(p, e) * cost_per_w * 1000 * c.MONTHLY_INFLATION**t * GR(e)
 
 ##Capacidad minima en kWh que se necesita instalada a nivel nacional en el mes t.
 def MC(t):
@@ -173,3 +189,24 @@ def TM(e):
              c.MINIMUM_REQUIRED_SPACE_EOLIC_INSTALLATION,
              c.MINIMUM_REQUIRED_SPACE_HYDRO_INSTALLATION]
     return sizes[e]
+
+if __name__ == "__main__":
+    print("Testing functions...")
+    print("p_to_name(0):", p_to_name(0))
+    print("e_to_name(0):", e_to_name(0))
+    print("haversine(0, 0, 0, 0):", haversine(0, 0, 0, 0))
+    print("int_to_energy(0):", int_to_energy(0))
+    print("A(0, 0):", A(0, 0))
+    print("base_energy_potential(0, 0):", base_energy_potential(0, 0))
+    print("B(0, 0, 0):", B(0, 0, 0))
+    print("PE(0):", PE(0))
+    print("D(0, 0):", D(0, 0))
+    print("CT(0):", CT(0))
+    print("DT(0, 0):", DT(0, 0))
+    print("CO(0, 0):", CO(0, 0))
+    print("CM(0, 0):", CM(0, 0))
+    print("CI(0, 0, 0):", CI(0, 0, 0))
+    print("MC(0):", MC(0))
+    print("GR(0):", GR(0))
+    print("TM(0):", TM(0))
+    print("Done!")
