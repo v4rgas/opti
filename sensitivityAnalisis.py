@@ -44,6 +44,18 @@ def sensitivityB(k, B):
 
     return main.model.objVal
 
+def sensitivityTM(k, TM):
+    main.pl.TM = lambda e: TM(e) * (1 + k)
+    main.optimizeAndPrintResults()
+
+    return main.model.objVal
+
+def sensitivityPE(k, PE):
+    main.pl.PE = lambda t: PE(t) * (1 + k)
+    main.optimizeAndPrintResults()
+
+    return main.model.objVal
+
 
 if __name__ == "__main__":
 
@@ -73,3 +85,31 @@ if __name__ == "__main__":
         print(k_values, z_values)
 
         generateGraphics(k_values, z_values, "B")
+
+    if parameter == "TM":
+        # Alterar valores de TM
+        k_values = []
+        z_values = []
+        K = [-0.5, -0.25, 0.25, 0.5]
+        TM = pl.TM
+        for k in K:
+            obj_val = sensitivityTM(k, TM)
+            k_values.append(k), z_values.append(obj_val)
+
+        print(k_values, z_values)
+
+        generateGraphics(k_values, z_values, "TM")
+
+    if parameter == "PE":
+        # Alterar valores de PE
+        k_values = []
+        z_values = []
+        K = [-0.5, -0.25, 0.25, 0.5]
+        PE = pl.PE
+        for k in K:
+            obj_val = sensitivityPE(k, PE)
+            k_values.append(k), z_values.append(obj_val)
+
+        print(k_values, z_values)
+
+        generateGraphics(k_values, z_values, "PE")
