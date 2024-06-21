@@ -37,64 +37,70 @@ model.update()
 
 #Restricciones
 
-##R1
-model.addConstrs((s[p, e, t]* pl.GR(e) <= pl.A(p, e) for p in range(P) for e in range(E) for t in range(T)), name ="R1")
+def addAllConstrs(model):
+    ##R1
+    model.addConstrs((s[p, e, t]* pl.GR(e) <= pl.A(p, e) for p in range(P) for e in range(E) for t in range(T)), name ="R1")
 
-##R2
-model.addConstrs((s[p, e, t] == s[p, e, (t - 1)] + r[p, e, t] for p in range(P) for e in range(E) for t in range(1, T)), name = "R2")
+    ##R2
+    model.addConstrs((s[p, e, t] == s[p, e, (t - 1)] + r[p, e, t] for p in range(P) for e in range(E) for t in range(1, T)), name = "R2")
 
-##R3
-model.addConstrs((s[p, e, 0] == r[p, e, 0] for p in range(P) for e in range(E)), name = "R3")
+    ##R3
+    model.addConstrs((s[p, e, 0] == r[p, e, 0] for p in range(P) for e in range(E)), name = "R3")
 
-##R4
-model.addConstrs((op[p, e, t] <= s[p, e, t] for p in range(P) for e in range(E) for t in range(T)), name = "R4")
+    ##R4
+    model.addConstrs((op[p, e, t] <= s[p, e, t] for p in range(P) for e in range(E) for t in range(T)), name = "R4")
 
-##R5
-model.addConstrs(quicksum(et[p, q, t] for q in range(P)) <= quicksum(pl.B(p, e, t) * op[p, e, t] * pl.GR(e) for e in range(E) ) for p in range(P) for t in range(T))  # q = p' :)
+    ##R5
+    model.addConstrs(quicksum(et[p, q, t] for q in range(P)) <= quicksum(pl.B(p, e, t) * op[p, e, t] * pl.GR(e) for e in range(E) ) for p in range(P) for t in range(T))  # q = p' :)
 
-##R6
-model.addConstrs((quicksum(quicksum(s[p, e, t] * pl.GR(e) * pl.B(p, e, t) for p in range(P)) for e in range(E)) >= pl.MC(t) for t in range(T)))
+    ##R6
+    model.addConstrs((quicksum(quicksum(s[p, e, t] * pl.GR(e) * pl.B(p, e, t) for p in range(P)) for e in range(E)) >= pl.MC(t) for t in range(T)))
 
-##R7
-model.addConstrs((quicksum(pl.B(p, e, t) * op[p, e, t] * pl.GR(e) for e in range(E)) + quicksum(et[q, p, t] - et[p, q, t] for q in range(P)) >= pl.D(p, t) for p in range(P) for t in range(T)), name = "R7")
+    ##R7
+    model.addConstrs((quicksum(pl.B(p, e, t) * op[p, e, t] * pl.GR(e) for e in range(E)) + quicksum(et[q, p, t] - et[p, q, t] for q in range(P)) >= pl.D(p, t) for p in range(P) for t in range(T)), name = "R7")
 
-##R8
-model.addConstrs((s[p, e, t] >= pl.TM(e) * y[p, e, t] for p in range(P) for e in range(E) for t in range(T)), name = "R8")
+    ##R8
+    model.addConstrs((s[p, e, t] >= pl.TM(e) * y[p, e, t] for p in range(P) for e in range(E) for t in range(T)), name = "R8")
 
-##R9
-model.addConstrs((s[p, e, t] <= y[p, e, t] * BigM for p in range(P) for e in range(E) for t in range(T)), name = "R9a")
-model.addConstrs((y[p, e, t] <= s[p, e, t] for p in range(P) for e in range(E) for t in range(T)), name = "R9b")
+    ##R9
+    model.addConstrs((s[p, e, t] <= y[p, e, t] * BigM for p in range(P) for e in range(E) for t in range(T)), name = "R9a")
+    model.addConstrs((y[p, e, t] <= s[p, e, t] for p in range(P) for e in range(E) for t in range(T)), name = "R9b")
 
-##R10
-model.addConstrs((quicksum(r[p, e, t] for e in range(E) for p in range(P)) <= (6_500 * P) for t in range(T)), name = "R10")
+    ##R10
+    model.addConstrs((quicksum(r[p, e, t] for e in range(E) for p in range(P)) <= (6_500 * P) for t in range(T)), name = "R10")
 
-##Naturaleza de las Variables
-model.addConstrs((et[p, q, t] >= 0 for p in range(P) for q in range(P) for t in range(T)), name="R10")
+    ##Naturaleza de las Variables
+    model.addConstrs((et[p, q, t] >= 0 for p in range(P) for q in range(P) for t in range(T)), name="R10")
 
 
-#Funcion Objetivo
+    #Funcion Objetivo
 
-objetivo1 = quicksum(quicksum(quicksum(op[p, e, t] * pl.GR(e) * pl.B(p, e, t) * pl.PE(t) for t in range(T)) for e in range(E)) for p in range(P))
-objetivo2 = quicksum(quicksum(quicksum(pl.CM(e , t) * s[p, e, t] + pl.CI(p, e, t) * r[p, e, t] for t in range(T)) for e in range(E)) for p in range(P))
-objetivo3 = quicksum(quicksum(quicksum(et[p, q, t] * pl.CT(t) * pl.DT(p, q) for t in range(T)) for q in range(P) if p != q) for p in range(P)) 
-objetivo4 = quicksum(quicksum(quicksum(pl.CO(e, t) * op[p, e, t] for t in range(T)) for e in range(E) if e != 3) for p in range(P))
+    objetivo1 = quicksum(quicksum(quicksum(op[p, e, t] * pl.GR(e) * pl.B(p, e, t) * pl.PE(t) for t in range(T)) for e in range(E)) for p in range(P))
+    objetivo2 = quicksum(quicksum(quicksum(pl.CM(e , t) * s[p, e, t] + pl.CI(p, e, t) * r[p, e, t] for t in range(T)) for e in range(E)) for p in range(P))
+    objetivo3 = quicksum(quicksum(quicksum(et[p, q, t] * pl.CT(t) * pl.DT(p, q) for t in range(T)) for q in range(P) if p != q) for p in range(P)) 
+    objetivo4 = quicksum(quicksum(quicksum(pl.CO(e, t) * op[p, e, t] for t in range(T)) for e in range(E) if e != 3) for p in range(P))
 
-objetivo = objetivo1 - objetivo2 - objetivo3 - objetivo4
+    objetivo = objetivo1 - objetivo2 - objetivo3 - objetivo4
+    model.setObjective(objetivo, GRB.MAXIMIZE)
 
-model.setObjective(objetivo, GRB.MAXIMIZE)
-model.optimize()
+def optimizeAndPrintResults():
+    addAllConstrs(model)
+    model.optimize()
 
-#Guarda los valores de las variables de decision
-s_values_array = np.zeros((P, E, T))
-op_values_array = np.zeros((P, E, T))
-for p in range(P):
-    for e in range(E):
-        for t in range(T):
-            s_values_array[p, e, t] = s[p, e, t].X
-            op_values_array[p, e, t] = op[p, e, t].X
+    #Guarda los valores de las variables de decision
+    s_values_array = np.zeros((P, E, T))
+    op_values_array = np.zeros((P, E, T))
+    for p in range(P):
+        for e in range(E):
+            for t in range(T):
+                s_values_array[p, e, t] = s[p, e, t].X
+                op_values_array[p, e, t] = op[p, e, t].X
 
-np.save(os.path.join("outputs", "op_values"), op_values_array)
+    np.save(os.path.join("outputs", "op_values"), op_values_array)
 
 #model.computeIIS()
 #archivo = "encontrar_infactibilidad"
 #model.write(f"{archivo}.ilp")
+
+if __name__ == "__main__":
+    optimizeAndPrintResults()
