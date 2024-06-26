@@ -1,0 +1,55 @@
+PROVINCIA,POTENCIAL SOLAR,POTENCIAL EÓLICO,POTENCIAL HIDROELÉCTRICO,SUPERFICIE,CENTROIDE
+Antártica Chilena,2.74 kWhr/m2,0 m/s,0 m3/s,15644.56 km2,-69.27 -55.17
+Antofagasta,7.28 kWhr/m2,4.44 m/s,0 m3/s,67682.2 km2,-69.4 -24.24
+Arauco,4.6 kWhr/m2,6.59 m/s,2.15 m3/s,5492.13 km2,-73.47 -37.82
+Arica,7.07 kWhr/m2,3.22 m/s,0 m3/s,8438.54 km2,-69.72 -18.65
+Aysén,3.31 kWhr/m2,0 m/s,0.33 m3/s,45179.82 km2,-73.81 -45.35
+Bío-Bío,4.74 kWhr/m2,6.17 m/s,18.41 m3/s,15055.88 km2,-72.03 -37.61
+Cachapoal,5.45 kWhr/m2,3.01 m/s,1.28 m3/s,7501.5 km2,-70.79 -34.28
+Capitán Prat,2.53 kWhr/m2,0 m/s,15.19 m3/s,36256.92 km2,-73.74 -48.07
+Cardenal Caro,5.47 kWhr/m2,4.57 m/s,0.61 m3/s,3291.67 km2,-71.75 -34.37
+Cauquenes,5.03 kWhr/m2,4.21 m/s,0.02 m3/s,3023.27 km2,-72.38 -35.9
+Cautín,4.09 kWhr/m2,5.63 m/s,9.1 m3/s,18381.82 km2,-72.45 -38.98
+Chacabuco,5.93 kWhr/m2,3.08 m/s,0 m3/s,2072.55 km2,-70.7 -33.15
+Chañaral,7.2 kWhr/m2,4.61 m/s,0 m3/s,24882.92 km2,-69.54 -26.11
+Chiloe,3.52 kWhr/m2,6.14 m/s,0.64 m3/s,9290.28 km2,-73.95 -42.72
+Choapa,6.26 kWhr/m2,1.6 m/s,0 m3/s,10137.58 km2,-70.93 -31.71
+Colchagua,5.26 kWhr/m2,4.32 m/s,1.95 m3/s,5552.04 km2,-71.05 -34.68
+Concepción,4.81 kWhr/m2,4.59 m/s,0.09 m3/s,3476.98 km2,-73.05 -36.95
+Copiapó,7.23 kWhr/m2,7.43 m/s,0 m3/s,32577.44 km2,-69.7 -27.64
+Cordillera,6.14 kWhr/m2,7.03 m/s,3.08 m3/s,5515.21 km2,-70.21 -33.67
+Coyhaique,3.09 kWhr/m2,0 m/s,0.71 m3/s,12623.45 km2,-72.01 -45.03
+Curicó,4.66 kWhr/m2,4.12 m/s,4.92 m3/s,7289.67 km2,-71.27 -35.16
+El Loa,7.61 kWhr/m2,6.48 m/s,0 m3/s,41952.31 km2,-68.1 -22.63
+Elqui,6.63 kWhr/m2,3.03 m/s,0 m3/s,17133.31 km2,-70.74 -29.77
+General Carrera,3.76 kWhr/m2,0 m/s,0.26 m3/s,11766.15 km2,-72.53 -46.51
+Huasco,6.77 kWhr/m2,3.42 m/s,0 m3/s,18191.67 km2,-70.61 -28.75
+Iquique,7.12 kWhr/m2,2.75 m/s,0 m3/s,2987.8 km2,-70.02 -20.74
+Isla de Pascua,0 kWhr/m2,0 m/s,0 m3/s,245.82 km2,-109.48 -27.1
+Limarí,6.41 kWhr/m2,2.03 m/s,0 m3/s,13362.78 km2,-70.95 -30.82
+Linares,5.24 kWhr/m2,2.67 m/s,2.4 m3/s,10082.41 km2,-71.38 -35.98
+Llanquihue,3.62 kWhr/m2,6.51 m/s,0.71 m3/s,14828.05 km2,-72.83 -41.49
+Los Andes,6.1 kWhr/m2,3.1 m/s,0.68 m3/s,3074.53 km2,-70.37 -32.81
+Magallanes,2.71 kWhr/m2,0 m/s,0 m3/s,36874.03 km2,-71.58 -53.24
+Maipo,5.67 kWhr/m2,2.68 m/s,0 m3/s,1121.74 km2,-70.73 -33.76
+Malleco,4.33 kWhr/m2,6.44 m/s,8.6 m3/s,13452.15 km2,-72.08 -38.25
+Marga Marga,5.83 kWhr/m2,2.87 m/s,0 m3/s,1157.96 km2,-71.24 -33.08
+Melipilla,5.55 kWhr/m2,3.77 m/s,0.72 m3/s,4068.59 km2,-71.25 -33.69
+Ñuble,4.48 kWhr/m2,5.58 m/s,2.72 m3/s,13100.78 km2,-71.95 -36.6
+Osorno,3.59 kWhr/m2,6.03 m/s,2.98 m3/s,9278.59 km2,-72.89 -40.68
+Palena,4.07 kWhr/m2,5.31 m/s,8.83 m3/s,15034.34 km2,-72.34 -42.89
+Parinacota,7.23 kWhr/m2,4.71 m/s,0 m3/s,8191.01 km2,-69.38 -18.26
+Petorca,6.02 kWhr/m2,1.26 m/s,0 m3/s,4596.37 km2,-70.98 -32.35
+Quillota,5.89 kWhr/m2,2.79 m/s,0 m3/s,1113.69 km2,-71.23 -32.79
+Ranco,3.72 kWhr/m2,6.65 m/s,8.02 m3/s,9080.86 km2,-72.69 -40.29
+San Antonio,5.09 kWhr/m2,3.37 m/s,0 m3/s,1517.5 km2,-71.59 -33.6
+San Felipe,6.29 kWhr/m2,2.83 m/s,0.18 m3/s,2638.64 km2,-70.64 -32.62
+Santiago,5.84 kWhr/m2,2.11 m/s,0.16 m3/s,2030.65 km2,-70.57 -33.36
+Talagante,5.74 kWhr/m2,3.11 m/s,0 m3/s,580.55 km2,-70.95 -33.66
+Talca,4.45 kWhr/m2,5.16 m/s,4.09 m3/s,9928.88 km2,-71.47 -35.57
+Tamarugal,7.27 kWhr/m2,3.22 m/s,0 m3/s,39536.11 km2,-69.36 -20.28
+Tierra del Fuego,3.18 kWhr/m2,0 m/s,0 m3/s,21795.14 km2,-69.86 -53.6
+Tocopilla,7.15 kWhr/m2,5.05 m/s,0 m3/s,16385.5 km2,-69.58 -22.08
+Ultima Esperanza,0 kWhr/m2,0 m/s,0 m3/s,56617.06 km2,-73.68 -50.71
+Valdivia,3.9 kWhr/m2,4.94 m/s,16.26 m3/s,9168.29 km2,-72.65 -39.7
+Valparaíso,0 kWhr/m2,0 m/s,0 m3/s,106.61 km2,-79.8 -33.71
